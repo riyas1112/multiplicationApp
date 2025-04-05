@@ -1,0 +1,45 @@
+{% extends "home.html" %}
+
+{% block content %}
+<div style="margin-top: 30px;">
+    <h2>Multiplication Calculator</h2>
+    <form method="POST">
+        <div style="margin-bottom: 15px;">
+            <label for="num1">First Number:</label>
+            <input type="number" step="any" id="num1" name="num1" required style="padding: 8px; width: 100%;">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label for="num2">Second Number:</label>
+            <input type="number" step="any" id="num2" name="num2" required style="padding: 8px; width: 100%;">
+        </div>
+        <button type="submit" style="padding: 10px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">Multiply</button>
+    </form>
+    
+    {% if result is not none %}
+    <div style="margin-top: 20px; padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9;">
+        <h3>Result:</h3>
+        <p>{{ result }}</p>
+    </div>
+    {% endif %}
+    
+    {% if history %}
+    <div style="margin-top: 30px;">
+        <h3>Calculation History</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr style="background-color: #f2f2f2;">
+                <th style="padding: 8px; border: 1px solid #ddd;">Time</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Calculation</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Result</th>
+            </tr>
+            {% for calc in history|sort(attribute='timestamp', reverse=True) %}
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ calc.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ calc.num1 }} × {{ calc.num2 }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ calc.result }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

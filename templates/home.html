@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Math App</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .nav { display: flex; justify-content: space-between; margin-bottom: 30px; }
+        a { color: #4CAF50; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <h1>Welcome to Math App</h1>
+        <div>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a> | 
+                <a href="{{ url_for('signup') }}">Sign Up</a>
+            {% endif %}
+        </div>
+    </div>
+    
+    {% block content %}
+    <div class="main-content">
+        {% if current_user.is_authenticated %}
+            <p>Hello, {{ current_user.username }}! <a href="{{ url_for('multiply') }}">Go to Calculator</a></p>
+        {% else %}
+            <p>Please login or sign up to use the calculator.</p>
+        {% endif %}
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div style="color: red; margin-top: 20px;">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+    {% endblock %}
+</body>
+</html>
